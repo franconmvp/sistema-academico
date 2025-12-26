@@ -48,8 +48,36 @@
                                 <x-text-input id="especialidad" name="especialidad" type="text" class="mt-1 block w-full" :value="old('especialidad', $personal->especialidad)" />
                             </div>
                             <div>
+                                <x-input-label for="grado_academico" value="Grado Académico" />
+                                <x-text-input id="grado_academico" name="grado_academico" type="text" class="mt-1 block w-full" :value="old('grado_academico', $personal->grado_academico)" />
+                            </div>
+                            <div>
+                                <x-input-label for="titulo_profesional" value="Título Profesional" />
+                                <x-text-input id="titulo_profesional" name="titulo_profesional" type="text" class="mt-1 block w-full" :value="old('titulo_profesional', $personal->titulo_profesional)" />
+                            </div>
+                            <div>
                                 <x-input-label for="telefono" value="Teléfono" />
                                 <x-text-input id="telefono" name="telefono" type="text" class="mt-1 block w-full" :value="old('telefono', $personal->telefono)" />
+                            </div>
+                            <div>
+                                <x-input-label for="direccion" value="Dirección" />
+                                <x-text-input id="direccion" name="direccion" type="text" class="mt-1 block w-full" :value="old('direccion', $personal->direccion)" />
+                            </div>
+                            <div>
+                                <x-input-label for="fecha_nacimiento" value="Fecha Nacimiento" />
+                                <x-text-input id="fecha_nacimiento" name="fecha_nacimiento" type="date" class="mt-1 block w-full" :value="old('fecha_nacimiento', $personal->fecha_nacimiento?->format('Y-m-d'))" />
+                            </div>
+                            <div>
+                                <x-input-label for="sexo" value="Sexo" />
+                                <select id="sexo" name="sexo" class="mt-1 block w-full border-gray-300 focus:border-primary-500 focus:ring-primary-500 rounded-md shadow-sm">
+                                    <option value="">Seleccione...</option>
+                                    <option value="M" {{ old('sexo', $personal->sexo) == 'M' ? 'selected' : '' }}>Masculino</option>
+                                    <option value="F" {{ old('sexo', $personal->sexo) == 'F' ? 'selected' : '' }}>Femenino</option>
+                                </select>
+                            </div>
+                            <div>
+                                <x-input-label for="fecha_ingreso" value="Fecha de Ingreso" />
+                                <x-text-input id="fecha_ingreso" name="fecha_ingreso" type="date" class="mt-1 block w-full" :value="old('fecha_ingreso', $personal->fecha_ingreso?->format('Y-m-d'))" />
                             </div>
                             <div class="md:col-span-3">
                                 <label class="inline-flex items-center">

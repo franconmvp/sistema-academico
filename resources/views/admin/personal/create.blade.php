@@ -57,8 +57,16 @@
                                 <x-text-input id="grado_academico" name="grado_academico" type="text" class="mt-1 block w-full" :value="old('grado_academico')" />
                             </div>
                             <div>
+                                <x-input-label for="titulo_profesional" value="Título Profesional" />
+                                <x-text-input id="titulo_profesional" name="titulo_profesional" type="text" class="mt-1 block w-full" :value="old('titulo_profesional')" />
+                            </div>
+                            <div>
                                 <x-input-label for="telefono" value="Teléfono" />
                                 <x-text-input id="telefono" name="telefono" type="text" class="mt-1 block w-full" :value="old('telefono')" />
+                            </div>
+                            <div>
+                                <x-input-label for="direccion" value="Dirección" />
+                                <x-text-input id="direccion" name="direccion" type="text" class="mt-1 block w-full" :value="old('direccion')" />
                             </div>
                             <div>
                                 <x-input-label for="fecha_nacimiento" value="Fecha Nacimiento" />
@@ -71,6 +79,10 @@
                                     <option value="M" {{ old('sexo') == 'M' ? 'selected' : '' }}>Masculino</option>
                                     <option value="F" {{ old('sexo') == 'F' ? 'selected' : '' }}>Femenino</option>
                                 </select>
+                            </div>
+                            <div>
+                                <x-input-label for="fecha_ingreso" value="Fecha de Ingreso" />
+                                <x-text-input id="fecha_ingreso" name="fecha_ingreso" type="date" class="mt-1 block w-full" :value="old('fecha_ingreso')" />
                             </div>
                         </div>
                         <div class="mt-6 pt-6 border-t">
