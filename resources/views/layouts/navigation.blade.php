@@ -1,19 +1,19 @@
 <nav x-data="{ open: false }" class="bg-primary-900 border-b border-primary-800">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="w-full px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
-            <div class="flex">
+            <div class="flex items-center flex-1 min-w-0">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}" class="flex items-center">
-                        <x-application-logo class="block h-9 w-auto fill-current text-white" />
-                        <span class="ml-2 text-white font-bold text-lg hidden sm:block">Sistema Académico</span>
+                        <x-application-logo class="block h-8 w-auto fill-current text-white" />
+                        <span class="ml-2 text-white font-bold text-sm hidden lg:block">Sistema Académico</span>
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-4 sm:-my-px sm:ms-10 sm:flex">
-                    <a href="{{ route('dashboard') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('dashboard') ? 'border-secondary-500 text-white' : 'border-transparent text-gray-300 hover:text-white hover:border-gray-300' }} text-sm font-medium leading-5 transition duration-150 ease-in-out">
+                <div class="hidden space-x-2 sm:-my-px sm:ms-6 sm:flex flex-1 min-w-0">
+                    <a href="{{ route('dashboard') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('dashboard') ? 'border-secondary-500 text-white' : 'border-transparent text-gray-300 hover:text-white hover:border-gray-300' }} text-xs font-medium leading-5 transition duration-150 ease-in-out whitespace-nowrap">
                         Dashboard
                     </a>
 
@@ -21,9 +21,9 @@
                         <!-- Admin Menu -->
                         <div class="hidden sm:flex sm:items-center" x-data="{ open: false }">
                             <div class="relative">
-                                <button @click="open = !open" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-gray-300 hover:text-white text-sm font-medium leading-5 transition duration-150 ease-in-out">
+                                <button @click="open = !open" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-gray-300 hover:text-white text-xs font-medium leading-5 transition duration-150 ease-in-out whitespace-nowrap">
                                     Institución
-                                    <svg class="ml-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <svg class="ml-1 h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
                                     </svg>
                                 </button>
@@ -38,9 +38,9 @@
 
                         <div class="hidden sm:flex sm:items-center" x-data="{ open: false }">
                             <div class="relative">
-                                <button @click="open = !open" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-gray-300 hover:text-white text-sm font-medium leading-5 transition duration-150 ease-in-out">
+                                <button @click="open = !open" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-gray-300 hover:text-white text-xs font-medium leading-5 transition duration-150 ease-in-out whitespace-nowrap">
                                     Académico
-                                    <svg class="ml-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <svg class="ml-1 h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
                                     </svg>
                                 </button>
@@ -54,9 +54,9 @@
 
                         <div class="hidden sm:flex sm:items-center" x-data="{ open: false }">
                             <div class="relative">
-                                <button @click="open = !open" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-gray-300 hover:text-white text-sm font-medium leading-5 transition duration-150 ease-in-out">
+                                <button @click="open = !open" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-gray-300 hover:text-white text-xs font-medium leading-5 transition duration-150 ease-in-out whitespace-nowrap">
                                     Personal
-                                    <svg class="ml-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <svg class="ml-1 h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
                                     </svg>
                                 </button>
@@ -68,19 +68,19 @@
                             </div>
                         </div>
 
-                        <a href="{{ route('admin.estudiantes.index') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('admin.estudiantes.*') ? 'border-secondary-500 text-white' : 'border-transparent text-gray-300 hover:text-white hover:border-gray-300' }} text-sm font-medium leading-5 transition duration-150 ease-in-out">
+                        <a href="{{ route('admin.estudiantes.index') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('admin.estudiantes.*') ? 'border-secondary-500 text-white' : 'border-transparent text-gray-300 hover:text-white hover:border-gray-300' }} text-xs font-medium leading-5 transition duration-150 ease-in-out whitespace-nowrap">
                             Estudiantes
                         </a>
 
-                        <a href="{{ route('admin.matriculas.index') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('admin.matriculas.*') ? 'border-secondary-500 text-white' : 'border-transparent text-gray-300 hover:text-white hover:border-gray-300' }} text-sm font-medium leading-5 transition duration-150 ease-in-out">
+                        <a href="{{ route('admin.matriculas.index') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('admin.matriculas.*') ? 'border-secondary-500 text-white' : 'border-transparent text-gray-300 hover:text-white hover:border-gray-300' }} text-xs font-medium leading-5 transition duration-150 ease-in-out whitespace-nowrap">
                             Matrícula
                         </a>
 
                         <div class="hidden sm:flex sm:items-center" x-data="{ open: false }">
                             <div class="relative">
-                                <button @click="open = !open" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-gray-300 hover:text-white text-sm font-medium leading-5 transition duration-150 ease-in-out">
+                                <button @click="open = !open" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-gray-300 hover:text-white text-xs font-medium leading-5 transition duration-150 ease-in-out whitespace-nowrap">
                                     Reportes
-                                    <svg class="ml-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <svg class="ml-1 h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
                                     </svg>
                                 </button>
@@ -93,57 +93,54 @@
                             </div>
                         </div>
 
-                        <a href="{{ route('admin.users.index') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('admin.users.*') ? 'border-secondary-500 text-white' : 'border-transparent text-gray-300 hover:text-white hover:border-gray-300' }} text-sm font-medium leading-5 transition duration-150 ease-in-out">
+                        <a href="{{ route('admin.users.index') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('admin.users.*') ? 'border-secondary-500 text-white' : 'border-transparent text-gray-300 hover:text-white hover:border-gray-300' }} text-xs font-medium leading-5 transition duration-150 ease-in-out whitespace-nowrap">
                             Usuarios
                         </a>
                     @endif
 
                     @if(auth()->user()->isDocente())
                         <!-- Docente Menu -->
-                        <a href="{{ route('docente.asignaciones') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('docente.asignaciones') ? 'border-secondary-500 text-white' : 'border-transparent text-gray-300 hover:text-white hover:border-gray-300' }} text-sm font-medium leading-5 transition duration-150 ease-in-out">
+                        <a href="{{ route('docente.asignaciones') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('docente.asignaciones') ? 'border-secondary-500 text-white' : 'border-transparent text-gray-300 hover:text-white hover:border-gray-300' }} text-xs font-medium leading-5 transition duration-150 ease-in-out whitespace-nowrap">
                             Mis Asignaciones
                         </a>
-                        <a href="{{ route('docente.mi-horario') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('docente.mi-horario') ? 'border-secondary-500 text-white' : 'border-transparent text-gray-300 hover:text-white hover:border-gray-300' }} text-sm font-medium leading-5 transition duration-150 ease-in-out">
+                        <a href="{{ route('docente.mi-horario') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('docente.mi-horario') ? 'border-secondary-500 text-white' : 'border-transparent text-gray-300 hover:text-white hover:border-gray-300' }} text-xs font-medium leading-5 transition duration-150 ease-in-out whitespace-nowrap">
                             Mi Horario
                         </a>
                     @endif
 
                     @if(auth()->user()->isEstudiante())
                         <!-- Estudiante Menu -->
-                        <a href="{{ route('estudiante.mi-perfil') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('estudiante.mi-perfil') ? 'border-secondary-500 text-white' : 'border-transparent text-gray-300 hover:text-white hover:border-gray-300' }} text-sm font-medium leading-5 transition duration-150 ease-in-out">
+                        <a href="{{ route('estudiante.mi-perfil') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('estudiante.mi-perfil') ? 'border-secondary-500 text-white' : 'border-transparent text-gray-300 hover:text-white hover:border-gray-300' }} text-xs font-medium leading-5 transition duration-150 ease-in-out whitespace-nowrap">
                             Mi Perfil
                         </a>
-                        <a href="{{ route('estudiante.mis-matriculas') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('estudiante.mis-matriculas') ? 'border-secondary-500 text-white' : 'border-transparent text-gray-300 hover:text-white hover:border-gray-300' }} text-sm font-medium leading-5 transition duration-150 ease-in-out">
+                        <a href="{{ route('estudiante.mis-matriculas') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('estudiante.mis-matriculas') ? 'border-secondary-500 text-white' : 'border-transparent text-gray-300 hover:text-white hover:border-gray-300' }} text-xs font-medium leading-5 transition duration-150 ease-in-out whitespace-nowrap">
                             Mis Matrículas
                         </a>
-                        <a href="{{ route('estudiante.mis-notas') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('estudiante.mis-notas') ? 'border-secondary-500 text-white' : 'border-transparent text-gray-300 hover:text-white hover:border-gray-300' }} text-sm font-medium leading-5 transition duration-150 ease-in-out">
+                        <a href="{{ route('estudiante.mis-notas') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('estudiante.mis-notas') ? 'border-secondary-500 text-white' : 'border-transparent text-gray-300 hover:text-white hover:border-gray-300' }} text-xs font-medium leading-5 transition duration-150 ease-in-out whitespace-nowrap">
                             Mis Notas
                         </a>
-                        <a href="{{ route('estudiante.historial-academico') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('estudiante.historial-academico') ? 'border-secondary-500 text-white' : 'border-transparent text-gray-300 hover:text-white hover:border-gray-300' }} text-sm font-medium leading-5 transition duration-150 ease-in-out">
-                            Historial Académico
+                        <a href="{{ route('estudiante.historial-academico') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('estudiante.historial-academico') ? 'border-secondary-500 text-white' : 'border-transparent text-gray-300 hover:text-white hover:border-gray-300' }} text-xs font-medium leading-5 transition duration-150 ease-in-out whitespace-nowrap">
+                            Historial
                         </a>
-                        <a href="{{ route('estudiante.mi-horario') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('estudiante.mi-horario') ? 'border-secondary-500 text-white' : 'border-transparent text-gray-300 hover:text-white hover:border-gray-300' }} text-sm font-medium leading-5 transition duration-150 ease-in-out">
-                            Mi Horario
+                        <a href="{{ route('estudiante.mi-horario') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('estudiante.mi-horario') ? 'border-secondary-500 text-white' : 'border-transparent text-gray-300 hover:text-white hover:border-gray-300' }} text-xs font-medium leading-5 transition duration-150 ease-in-out whitespace-nowrap">
+                            Horario
                         </a>
                     @endif
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <div class="hidden sm:flex sm:items-center sm:ms-4 shrink-0">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-300 bg-primary-800 hover:text-white focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
-                            <span class="ml-2 px-2 py-0.5 text-xs rounded-full {{ Auth::user()->isAdmin() ? 'bg-red-500' : (Auth::user()->isDocente() ? 'bg-blue-500' : 'bg-green-500') }} text-white">
+                        <button class="inline-flex items-center px-2 py-1.5 border border-transparent text-xs leading-4 font-medium rounded-md text-gray-300 bg-primary-800 hover:text-white focus:outline-none transition ease-in-out duration-150">
+                            <span class="max-w-[120px] truncate">{{ Auth::user()->name }}</span>
+                            <span class="ml-1.5 px-1.5 py-0.5 text-xs rounded-full {{ Auth::user()->isAdmin() ? 'bg-red-500' : (Auth::user()->isDocente() ? 'bg-blue-500' : 'bg-green-500') }} text-white">
                                 {{ ucfirst(Auth::user()->role) }}
                             </span>
-
-                            <div class="ms-1">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
+                            <svg class="ml-1 fill-current h-3 w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
                         </button>
                     </x-slot>
 
