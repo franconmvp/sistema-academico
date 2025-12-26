@@ -15,9 +15,9 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
-        <div x-data="{ sidebarOpen: false }" class="min-h-screen bg-gray-100">
+        <div x-data="{ sidebarOpen: false }" class="min-h-screen bg-gray-100 flex flex-col">
             <!-- Top Header Bar -->
-            <header class="bg-primary-900 shadow-lg fixed w-full z-30">
+            <header class="bg-primary-900 shadow-lg fixed w-full z-30 top-0">
                 <div class="flex items-center justify-between h-16 px-4">
                     <!-- Left: Hamburger + Logo -->
                     <div class="flex items-center">
@@ -71,48 +71,50 @@
                 </div>
             </header>
 
-            <!-- Sidebar Overlay (Mobile) -->
-            <div x-show="sidebarOpen" @click="sidebarOpen = false" class="fixed inset-0 z-20 bg-black bg-opacity-50 lg:hidden" x-transition:enter="transition-opacity ease-linear duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"></div>
+            <div class="flex flex-1 pt-16">
+                <!-- Sidebar Overlay (Mobile) -->
+                <div x-show="sidebarOpen" @click="sidebarOpen = false" class="fixed inset-0 z-20 bg-black bg-opacity-50 lg:hidden" x-transition:enter="transition-opacity ease-linear duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"></div>
 
-            <!-- Sidebar -->
-            <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed inset-y-0 left-0 z-20 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-auto pt-16">
-                <div class="h-full overflow-y-auto py-4">
-                    @include('layouts.sidebar')
+                <!-- Sidebar -->
+                <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed inset-y-0 left-0 z-20 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 pt-16 lg:pt-16">
+                    <div class="h-full overflow-y-auto py-4">
+                        @include('layouts.sidebar')
+                    </div>
+                </aside>
+
+                <!-- Main Content -->
+                <div class="flex-1 lg:ml-64 min-h-screen">
+                    <!-- Page Heading -->
+                    @isset($header)
+                        <header class="bg-white shadow">
+                            <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+                                {{ $header }}
+                            </div>
+                        </header>
+                    @endisset
+
+                    <!-- Flash Messages -->
+                    @if(session('success'))
+                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+                            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                                <span class="block sm:inline">{{ session('success') }}</span>
+                            </div>
+                        </div>
+                    @endif
+
+                    @if(session('error'))
+                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+                            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                                <span class="block sm:inline">{{ session('error') }}</span>
+                            </div>
+                        </div>
+                    @endif
+
+                    <!-- Page Content -->
+                    <main class="p-4">
+                        {{ $slot }}
+                    </main>
                 </div>
-            </aside>
-
-            <!-- Main Content -->
-            <div class="lg:ml-64 pt-16">
-                <!-- Page Heading -->
-                @isset($header)
-                    <header class="bg-white shadow">
-                        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-                            {{ $header }}
-                        </div>
-                    </header>
-                @endisset
-
-                <!-- Flash Messages -->
-                @if(session('success'))
-                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
-                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-                            <span class="block sm:inline">{{ session('success') }}</span>
-                        </div>
-                    </div>
-                @endif
-
-                @if(session('error'))
-                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
-                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                            <span class="block sm:inline">{{ session('error') }}</span>
-                        </div>
-                    </div>
-                @endif
-
-                <!-- Page Content -->
-                <main class="p-4">
-                    {{ $slot }}
-                </main>
             </div>
         </div>
     </body>
