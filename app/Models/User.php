@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -21,6 +22,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'is_active',
     ];
 
     /**
@@ -43,6 +46,47 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
         ];
+    }
+
+    /**
+     * Check if user is admin
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Check if user is docente
+     */
+    public function isDocente(): bool
+    {
+        return $this->role === 'docente';
+    }
+
+    /**
+     * Check if user is estudiante
+     */
+    public function isEstudiante(): bool
+    {
+        return $this->role === 'estudiante';
+    }
+
+    /**
+     * Get the personal record associated with the user
+     */
+    public function personal(): HasOne
+    {
+        return $this->hasOne(Personal::class);
+    }
+
+    /**
+     * Get the estudiante record associated with the user
+     */
+    public function estudiante(): HasOne
+    {
+        return $this->hasOne(Estudiante::class);
     }
 }

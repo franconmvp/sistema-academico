@@ -1,59 +1,212 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistema Académico - Instituto de Educación Superior
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistema de gestión académica integral desarrollado en Laravel para instituciones de educación superior. Permite la administración completa de estudiantes, docentes, matrículas, notas y certificados.
 
-## About Laravel
+## Requisitos del Sistema
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- PHP 8.2 o superior
+- Composer
+- Node.js y npm
+- SQLite, MySQL o PostgreSQL
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Instalación
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. **Clonar el repositorio**
+```bash
+git clone <url-del-repositorio>
+cd sistema-academico
+```
 
-## Learning Laravel
+2. **Instalar dependencias PHP**
+```bash
+composer install
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+3. **Instalar dependencias JavaScript**
+```bash
+npm install && npm run build
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+4. **Configurar variables de entorno**
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-## Laravel Sponsors
+5. **Configurar base de datos**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Para SQLite (desarrollo):
+```bash
+touch database/database.sqlite
+# En .env: DB_CONNECTION=sqlite
+```
 
-### Premium Partners
+Para MySQL/PostgreSQL, configure las credenciales en el archivo `.env`.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+6. **Ejecutar migraciones y seeders**
+```bash
+php artisan migrate --seed
+```
 
-## Contributing
+7. **Iniciar el servidor de desarrollo**
+```bash
+php artisan serve
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Credenciales de Acceso
 
-## Code of Conduct
+Después de ejecutar los seeders, puede acceder al sistema con:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- **Email:** admin@sistema.edu.pe
+- **Contraseña:** admin123
 
-## Security Vulnerabilities
+## Roles del Sistema
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Administrador
+- Gestión completa de información institucional
+- Administración de períodos lectivos
+- Gestión de personal docente y administrativo
+- Administración de programas y planes de estudio
+- Gestión de estudiantes y matrículas
+- Generación de reportes y certificados
+- Creación y gestión de cuentas de usuario
 
-## License
+### Docente
+- Visualización de asignaciones académicas
+- Registro y gestión de notas
+- Generación de reportes por período
+- Consulta de horarios
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Estudiante
+- Visualización de información personal (solo lectura)
+- Consulta de historial académico
+- Visualización de notas actuales
+- Acceso a fichas de matrícula
+- Consulta de horarios
+
+## Módulos Principales
+
+### Información Institucional
+- Datos generales del instituto
+- Logo y configuración
+
+### Períodos Lectivos
+- Gestión de semestres académicos
+- Activación de período actual
+
+### Programas de Estudio
+- Registro de carreras profesionales
+- Duración y descripción
+
+### Planes de Estudio
+- Asociación con programas
+- Vigencia y descripción
+
+### Unidades Didácticas
+- Cursos por plan de estudio
+- Créditos y horas semanales
+- Ciclo correspondiente
+
+### Personal
+- Docentes y personal administrativo
+- Tipos de contrato
+- Especialidades
+
+### Estudiantes
+- Datos personales
+- Programa y plan de estudio
+- Turno asignado
+
+### Turnos
+- Mañana, Tarde, Noche
+- Horarios de inicio y fin
+
+### Reglas de Promoción
+- Límites de matrícula por ciclo y turno
+
+### Matrículas
+- Pre-matrícula y matrícula oficial
+- Selección de unidades didácticas
+- Generación de fichas de matrícula
+
+### Asignación Docente
+- Asignación de cursos a docentes
+- Período, turno y aula
+
+### Horarios
+- Configuración de días y horas por asignación
+
+### Notas
+- Registro de notas parciales y final
+- Cálculo automático de promedios
+- Recuperación y nota definitiva
+
+### Reportes
+- Matrícula semestral
+- Notas por período
+- Actas de evaluación
+
+### Certificados
+- Certificados de estudios
+- Certificados modulares
+- Grados y títulos
+
+## Estructura de Archivos
+
+```
+app/
+├── Http/
+│   ├── Controllers/
+│   │   ├── Admin/           # Controladores de administración
+│   │   ├── Docente/         # Controladores de docente
+│   │   ├── Estudiante/      # Controladores de estudiante
+│   │   └── DashboardController.php
+│   └── Middleware/          # Middleware de roles
+├── Models/                   # Modelos Eloquent
+└── View/
+    └── Components/           # Componentes de vistas
+
+database/
+├── migrations/               # Migraciones de base de datos
+└── seeders/                  # Seeders para datos iniciales
+
+resources/views/
+├── admin/                    # Vistas de administración
+├── docente/                  # Vistas de docente
+├── estudiante/               # Vistas de estudiante
+├── components/               # Componentes Blade
+└── layouts/                  # Layouts principales
+```
+
+## Colores del Tema
+
+El sistema utiliza una paleta de colores institucional:
+
+- **Primary (Navy Blue):** #1a365d
+- **Secondary (Gold):** #d4a017
+
+Estos colores están configurados en `tailwind.config.js` y se aplican consistentemente en toda la interfaz.
+
+## Testing
+
+Ejecutar las pruebas del sistema:
+
+```bash
+php artisan test
+```
+
+## Tecnologías Utilizadas
+
+- **Backend:** Laravel 12
+- **Frontend:** Blade Templates + Tailwind CSS
+- **Autenticación:** Laravel Breeze
+- **Base de Datos:** SQLite/MySQL/PostgreSQL
+- **Testing:** Pest PHP
+
+## Licencia
+
+Este proyecto es software propietario desarrollado para uso institucional.
+
+## Soporte
+
+Para soporte técnico, contactar al administrador del sistema.
