@@ -58,7 +58,6 @@ class EstudianteController extends Controller
             'programa_estudio_id' => 'required|exists:programas_estudio,id',
             'plan_estudio_id' => 'required|exists:planes_estudio,id',
             'turno_id' => 'required|exists:turnos,id',
-            'codigo_estudiante' => 'required|string|max:20|unique:estudiantes',
             'dni' => 'required|string|size:8|unique:estudiantes',
             'nombres' => 'required|string|max:255',
             'apellido_paterno' => 'required|string|max:255',
@@ -69,40 +68,69 @@ class EstudianteController extends Controller
             'direccion' => 'nullable|string|max:255',
             'email_personal' => 'nullable|email|max:255',
             'fecha_ingreso' => 'required|date',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'nullable|email|unique:users,email',
+            'crear_cuenta' => 'boolean',
         ]);
 
-        // Create user account
-        $user = User::create([
-            'name' => $validated['nombres'] . ' ' . $validated['apellido_paterno'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['dni']), // Default password is DNI
-            'role' => 'estudiante',
-            'is_active' => true,
-        ]);
+        // Generate student code automatically: YYYY + Program code + sequential number
+        $programa = ProgramaEstudio::find($validated['programa_estudio_id']);
+        $year = date('Y');
+        $prefix = $year . $programa->codigo;
+        
+        $lastStudent = Estudiante::where('codigo_estudiante', 'like', $prefix . '%')
+            ->orderBy('codigo_estudiante', 'desc')
+            ->first();
+        
+        if ($lastStudent) {
+            $lastNumber = (int) substr($lastStudent->codigo_estudiante, strlen($prefix));
+            $newNumber = $lastNumber + 1;
+        } else {
+            $newNumber = 1;
+        }
+        
+        $codigoEstudiante = $prefix . str_pad($newNumber, 4, '0', STR_PAD_LEFT);
+
+        $userId = null;
+
+        // Create user account if requested
+        if ($request->has('crear_cuenta') && $request->filled('email')) {
+            $user = User::create([
+                'name' => $validated['nombres'] . ' ' . $validated['apellido_paterno'],
+                'email' => $validated['email'],
+                'password' => Hash::make($validated['dni']), // Default password is DNI
+                'role' => 'estudiante',
+                'is_active' => true,
+            ]);
+            $userId = $user->id;
+        }
 
         Estudiante::create([
-            'user_id' => $user->id,
+            'user_id' => $userId,
             'programa_estudio_id' => $validated['programa_estudio_id'],
             'plan_estudio_id' => $validated['plan_estudio_id'],
             'turno_id' => $validated['turno_id'],
-            'codigo_estudiante' => $validated['codigo_estudiante'],
+            'codigo_estudiante' => $codigoEstudiante,
             'dni' => $validated['dni'],
             'nombres' => $validated['nombres'],
             'apellido_paterno' => $validated['apellido_paterno'],
             'apellido_materno' => $validated['apellido_materno'],
-            'fecha_nacimiento' => $validated['fecha_nacimiento'],
-            'sexo' => $validated['sexo'],
-            'telefono' => $validated['telefono'],
-            'direccion' => $validated['direccion'],
-            'email_personal' => $validated['email_personal'],
+            'fecha_nacimiento' => $validated['fecha_nacimiento'] ?? null,
+            'sexo' => $validated['sexo'] ?? null,
+            'telefono' => $validated['telefono'] ?? null,
+            'direccion' => $validated['direccion'] ?? null,
+            'email_personal' => $validated['email_personal'] ?? null,
             'fecha_ingreso' => $validated['fecha_ingreso'],
             'ciclo_actual' => 1,
             'estado' => 'activo',
         ]);
 
+        $message = 'Estudiante registrado correctamente. Código: ' . $codigoEstudiante;
+        if ($userId) {
+            $message .= ' - La contraseña inicial es su DNI.';
+        }
+
         return redirect()->route('admin.estudiantes.index')
-            ->with('success', 'Estudiante registrado correctamente. La contraseña inicial es su DNI.');
+            ->with('success', $message);
     }
 
     public function show(Estudiante $estudiante)
@@ -129,11 +157,17 @@ class EstudianteController extends Controller
 
     public function update(Request $request, Estudiante $estudiante)
     {
+        $emailRule = 'nullable|email';
+        if (!$estudiante->user_id) {
+            $emailRule .= '|unique:users,email';
+        } else {
+            $emailRule .= '|unique:users,email,' . $estudiante->user_id;
+        }
+
         $validated = $request->validate([
             'programa_estudio_id' => 'required|exists:programas_estudio,id',
             'plan_estudio_id' => 'required|exists:planes_estudio,id',
             'turno_id' => 'required|exists:turnos,id',
-            'codigo_estudiante' => 'required|string|max:20|unique:estudiantes,codigo_estudiante,' . $estudiante->id,
             'dni' => 'required|string|size:8|unique:estudiantes,dni,' . $estudiante->id,
             'nombres' => 'required|string|max:255',
             'apellido_paterno' => 'required|string|max:255',
@@ -145,15 +179,45 @@ class EstudianteController extends Controller
             'email_personal' => 'nullable|email|max:255',
             'ciclo_actual' => 'required|integer|min:1|max:12',
             'estado' => 'required|in:activo,egresado,retirado,suspendido',
+            'email' => $emailRule,
+            'crear_cuenta' => 'boolean',
         ]);
 
-        $estudiante->update($validated);
+        $estudiante->update([
+            'programa_estudio_id' => $validated['programa_estudio_id'],
+            'plan_estudio_id' => $validated['plan_estudio_id'],
+            'turno_id' => $validated['turno_id'],
+            'dni' => $validated['dni'],
+            'nombres' => $validated['nombres'],
+            'apellido_paterno' => $validated['apellido_paterno'],
+            'apellido_materno' => $validated['apellido_materno'],
+            'fecha_nacimiento' => $validated['fecha_nacimiento'] ?? null,
+            'sexo' => $validated['sexo'] ?? null,
+            'telefono' => $validated['telefono'] ?? null,
+            'direccion' => $validated['direccion'] ?? null,
+            'email_personal' => $validated['email_personal'] ?? null,
+            'ciclo_actual' => $validated['ciclo_actual'],
+            'estado' => $validated['estado'],
+        ]);
 
-        // Update user name if exists
+        // Handle user account
         if ($estudiante->user) {
-            $estudiante->user->update([
+            // Update existing user
+            $updateData = ['name' => $validated['nombres'] . ' ' . $validated['apellido_paterno']];
+            if ($request->filled('email')) {
+                $updateData['email'] = $validated['email'];
+            }
+            $estudiante->user->update($updateData);
+        } elseif ($request->has('crear_cuenta') && $request->filled('email')) {
+            // Create new user account
+            $user = User::create([
                 'name' => $validated['nombres'] . ' ' . $validated['apellido_paterno'],
+                'email' => $validated['email'],
+                'password' => Hash::make($validated['dni']),
+                'role' => 'estudiante',
+                'is_active' => true,
             ]);
+            $estudiante->update(['user_id' => $user->id]);
         }
 
         return redirect()->route('admin.estudiantes.index')

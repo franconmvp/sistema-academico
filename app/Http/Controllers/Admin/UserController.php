@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Personal;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -32,26 +33,42 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('admin.users.create');
+        // Get personnel without user accounts
+        $personal = Personal::whereNull('user_id')
+            ->where('activo', true)
+            ->orderBy('apellido_paterno')
+            ->orderBy('apellido_materno')
+            ->get();
+        
+        return view('admin.users.create', compact('personal'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'personal_id' => 'required|exists:personal,id',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|in:admin,docente,estudiante',
-            'is_active' => 'boolean',
         ]);
 
-        $validated['password'] = Hash::make($validated['password']);
-        $validated['is_active'] = $request->has('is_active');
+        $personal = Personal::findOrFail($validated['personal_id']);
 
-        User::create($validated);
+        // Determine role based on personnel type
+        $role = $personal->tipo === 'docente' ? 'docente' : 'admin';
+
+        // Create user with DNI as password
+        $user = User::create([
+            'name' => $personal->nombre_completo,
+            'email' => $validated['email'],
+            'password' => Hash::make($personal->dni),
+            'role' => $role,
+            'is_active' => true,
+        ]);
+
+        // Link user to personnel
+        $personal->update(['user_id' => $user->id]);
 
         return redirect()->route('admin.users.index')
-            ->with('success', 'Usuario creado correctamente.');
+            ->with('success', 'Usuario creado correctamente. Rol: ' . ucfirst($role) . '. Contraseña: DNI del personal.');
     }
 
     public function edit(User $user)
@@ -65,19 +82,20 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8|confirmed',
-            'role' => 'required|in:admin,docente,estudiante',
             'is_active' => 'boolean',
         ]);
 
-        if ($validated['password']) {
-            $validated['password'] = Hash::make($validated['password']);
-        } else {
-            unset($validated['password']);
-        }
-        
-        $validated['is_active'] = $request->has('is_active');
+        $updateData = [
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'is_active' => $request->has('is_active'),
+        ];
 
-        $user->update($validated);
+        if (!empty($validated['password'])) {
+            $updateData['password'] = Hash::make($validated['password']);
+        }
+
+        $user->update($updateData);
 
         return redirect()->route('admin.users.index')
             ->with('success', 'Usuario actualizado correctamente.');

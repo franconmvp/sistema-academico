@@ -7,6 +7,10 @@
 
     <div class="py-12">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-primary-50 border-l-4 border-primary-500 p-4 mb-6">
+                <p class="text-sm text-primary-700"><strong>Nota:</strong> El código de estudiante se generará automáticamente al guardar.</p>
+            </div>
+
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
                     <form method="POST" action="{{ route('admin.estudiantes.store') }}">
@@ -14,12 +18,6 @@
 
                         <h3 class="text-lg font-medium text-gray-900 mb-4">Datos Académicos</h3>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                            <div>
-                                <x-input-label for="codigo_estudiante" value="Código de Estudiante *" />
-                                <x-text-input id="codigo_estudiante" name="codigo_estudiante" type="text" class="mt-1 block w-full" :value="old('codigo_estudiante')" required />
-                                <x-input-error :messages="$errors->get('codigo_estudiante')" class="mt-2" />
-                            </div>
-
                             <div>
                                 <x-input-label for="programa_estudio_id" value="Programa de Estudio *" />
                                 <select id="programa_estudio_id" name="programa_estudio_id" class="mt-1 block w-full border-gray-300 focus:border-primary-500 focus:ring-primary-500 rounded-md shadow-sm" required>
@@ -86,7 +84,6 @@
                             <div>
                                 <x-input-label for="fecha_nacimiento" value="Fecha de Nacimiento" />
                                 <x-text-input id="fecha_nacimiento" name="fecha_nacimiento" type="date" class="mt-1 block w-full" :value="old('fecha_nacimiento')" />
-                                <x-input-error :messages="$errors->get('fecha_nacimiento')" class="mt-2" />
                             </div>
 
                             <div>
@@ -96,35 +93,36 @@
                                     <option value="M" {{ old('sexo') == 'M' ? 'selected' : '' }}>Masculino</option>
                                     <option value="F" {{ old('sexo') == 'F' ? 'selected' : '' }}>Femenino</option>
                                 </select>
-                                <x-input-error :messages="$errors->get('sexo')" class="mt-2" />
                             </div>
 
                             <div>
                                 <x-input-label for="telefono" value="Teléfono" />
                                 <x-text-input id="telefono" name="telefono" type="text" class="mt-1 block w-full" :value="old('telefono')" />
-                                <x-input-error :messages="$errors->get('telefono')" class="mt-2" />
                             </div>
 
                             <div class="md:col-span-2">
                                 <x-input-label for="direccion" value="Dirección" />
                                 <x-text-input id="direccion" name="direccion" type="text" class="mt-1 block w-full" :value="old('direccion')" />
-                                <x-input-error :messages="$errors->get('direccion')" class="mt-2" />
                             </div>
 
                             <div>
                                 <x-input-label for="email_personal" value="Email Personal" />
                                 <x-text-input id="email_personal" name="email_personal" type="email" class="mt-1 block w-full" :value="old('email_personal')" />
-                                <x-input-error :messages="$errors->get('email_personal')" class="mt-2" />
                             </div>
                         </div>
 
-                        <h3 class="text-lg font-medium text-gray-900 mb-4 pt-4 border-t">Cuenta de Usuario</h3>
+                        <h3 class="text-lg font-medium text-gray-900 mb-4 pt-4 border-t">Cuenta de Usuario (Opcional)</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <x-input-label for="email" value="Email Institucional (para acceso) *" />
-                                <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email')" required />
+                                <x-input-label for="email" value="Email Institucional (para acceso al sistema)" />
+                                <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email')" />
                                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
-                                <p class="mt-1 text-sm text-gray-500">La contraseña inicial será el DNI del estudiante.</p>
+                            </div>
+                            <div class="flex items-center pt-6">
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox" name="crear_cuenta" value="1" class="rounded border-gray-300 text-primary-600 shadow-sm focus:ring-primary-500" {{ old('crear_cuenta') ? 'checked' : '' }}>
+                                    <span class="ml-2 text-sm text-gray-600">Crear cuenta de acceso (contraseña = DNI)</span>
+                                </label>
                             </div>
                         </div>
 

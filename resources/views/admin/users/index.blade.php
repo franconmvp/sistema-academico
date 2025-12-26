@@ -22,6 +22,7 @@
                                 <option value="docente" {{ request('role') == 'docente' ? 'selected' : '' }}>Docente</option>
                                 <option value="estudiante" {{ request('role') == 'estudiante' ? 'selected' : '' }}>Estudiante</option>
                             </select>
+                            <p class="text-xs text-gray-500 mt-1">Usuarios de estudiantes se gestionan en el módulo Estudiantes</p>
                         </div>
                         <div><x-primary-button>Filtrar</x-primary-button></div>
                     </form>

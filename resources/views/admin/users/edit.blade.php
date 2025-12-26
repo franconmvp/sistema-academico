@@ -2,6 +2,20 @@
     <x-slot name="header"><h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Editar Usuario') }}</h2></x-slot>
     <div class="py-12">
         <div class="max-w-lg mx-auto sm:px-6 lg:px-8">
+            <div class="bg-primary-50 border-l-4 border-primary-500 p-4 mb-6">
+                <p class="text-sm text-primary-700">
+                    <strong>Rol:</strong> 
+                    <span class="px-2 py-0.5 text-xs rounded-full {{ $user->role === 'admin' ? 'bg-red-100 text-red-800' : ($user->role === 'docente' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800') }}">
+                        {{ ucfirst($user->role) }}
+                    </span>
+                    @if($user->personal)
+                        <br><span class="text-xs">Vinculado a: {{ $user->personal->nombre_completo }}</span>
+                    @elseif($user->estudiante)
+                        <br><span class="text-xs">Vinculado a: {{ $user->estudiante->nombre_completo }} (Estudiante)</span>
+                    @endif
+                </p>
+            </div>
+
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
                     <form method="POST" action="{{ route('admin.users.update', $user) }}">
@@ -25,14 +39,6 @@
                             <div>
                                 <x-input-label for="password_confirmation" value="Confirmar Nueva Contraseña" />
                                 <x-text-input id="password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full" />
-                            </div>
-                            <div>
-                                <x-input-label for="role" value="Rol *" />
-                                <select id="role" name="role" class="mt-1 block w-full border-gray-300 focus:border-primary-500 focus:ring-primary-500 rounded-md shadow-sm" required>
-                                    <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Administrador</option>
-                                    <option value="docente" {{ old('role', $user->role) == 'docente' ? 'selected' : '' }}>Docente</option>
-                                    <option value="estudiante" {{ old('role', $user->role) == 'estudiante' ? 'selected' : '' }}>Estudiante</option>
-                                </select>
                             </div>
                             <div>
                                 <label class="inline-flex items-center">
